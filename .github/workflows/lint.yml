@@ -21,8 +21,5 @@ jobs:
       - name: Install Maven
         run: sudo apt-get install maven -y
 
-      - name: Build project with Maven
-        run: mvn -B package --file githubactions/my-task-manager-app/pom.xml
-
       - name: Run Checkstyle Linting
-        run: mvn checkstyle:check
+        run: mvn checkstyle:check --file githubactions/my-task-manager-app/pom.xml
