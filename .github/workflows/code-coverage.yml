@@ -3,7 +3,7 @@ name: Code Coverage and PR Comment
 on:
   pull_request:
     branches:
-      - main
+     -main
 
 jobs:
   coverage:
@@ -13,10 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
+      - name: Setup Java
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          java-version: '21'
 
       - name: Install dependencies
         run: npm install
