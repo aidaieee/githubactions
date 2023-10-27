@@ -22,4 +22,4 @@ jobs:
         run: sudo apt-get install maven -y
 
       - name: Run Checkstyle Linting
-        run: mvn checkstyle:check --file githubactions/my-task-manager-app/pom.xml
+        run: mvn checkstyle:check --file my-task-manager-app/pom.xml
