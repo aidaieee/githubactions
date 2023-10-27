@@ -1,9 +1,7 @@
 name: Code Linting
-
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   lint:
@@ -13,20 +11,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Setup Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
         with:
-          node-version: 14
+          java-version: '21'
 
-      # Clear npm Cache
       - name: Clear npm Cache
         run: npm cache clean --force
 
-      # Install JavaScript Dependencies
       - name: Install JavaScript Dependencies
         run: npm install /home/runner/work/githubactions/githubactions/package.json
 
-      # Run JavaScript Linting
       - name: JavaScript Linting
         run: npm run lint  # Adjust to your specific linting command
