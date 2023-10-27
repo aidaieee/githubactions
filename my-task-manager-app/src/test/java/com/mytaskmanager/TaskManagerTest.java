@@ -8,7 +8,7 @@ public class TaskManagerTest {
     @Test
     public void testAddTask() {
         TaskManager taskManager = new TaskManager();
-        Task task = new Task(2, "Test Task");
+        Task task = new Task(5, "Test Task");
         try {
             taskManager.addTask(task);
             // Perform assertions to verify the task was added
