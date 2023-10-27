@@ -1,26 +1,27 @@
-name: Code Linting
+name: Java Code Linting
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   lint:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Setup Java
+      - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '21'
+          java-version: '21'  
 
-      - name: Clear npm Cache
-        run: npm cache clean --force
+      - name: Install Maven
+        run: sudo apt-get install maven -y
 
-      - name: Install JavaScript Dependencies
-        run: npm install /home/runner/work/githubactions/githubactions/package.json
+      - name: Build project with Maven
+        run: mvn -B package --file my-task-manager-app/pom.xml
 
-      - name: JavaScript Linting
-        run: npm run lint  # Adjust to your specific linting command
+      - name: Run Checkstyle Linting
+        run: mvn checkstyle:check
