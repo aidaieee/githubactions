@@ -17,7 +17,7 @@ jobs:
         distribution: 'adopt'
 
     - name: Build project with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file my-task-manager-app/pom.xml
     
     - name: Compile
       run: |
