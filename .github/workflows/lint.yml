@@ -17,7 +17,7 @@ jobs:
       - name: Python Linting
         run: |
           pip install flake8
-          flake8 .  # Adjust this command to lint your Python files
+          flake8 .  
 
       # JavaScript linting using ESLint
       - name: Setup Node.js (for JavaScript projects)
@@ -26,7 +26,7 @@ jobs:
           node-version: 14
 
       - name: Install JavaScript Dependencies
-        run: npm install  # Replace with your package manager and command
+        run: npm install 
 
       - name: JavaScript Linting
-        run: npm run lint  # Replace with your linting command for JavaScript
+        run: npm run lint 
