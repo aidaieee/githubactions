@@ -17,8 +17,7 @@ jobs:
         distribution: 'adopt'
     
     - name: Compile
-      run: javac -d . -sourcepath src src/com/mytaskmanager/*.java
-    
-    - name: Run Tests
-      run: java com.mytaskmanager.MainApp
+      run: |
+       javac my-task-manager-app/src/main/java/com/mytaskmanager/MainApp.java
+       java MainApp.java
     
