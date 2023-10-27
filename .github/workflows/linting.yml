@@ -1,0 +1,32 @@
+name: Code Linting
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Python linting using flake8
+      - name: Python Linting
+        run: |
+          pip install flake8
+          flake8 .  # Adjust this command to lint your Python files
+
+      # JavaScript linting using ESLint
+      - name: Setup Node.js (for JavaScript projects)
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install JavaScript Dependencies
+        run: npm install  # Replace with your package manager and command
+
+      - name: JavaScript Linting
+        run: npm run lint  # Replace with your linting command for JavaScript
