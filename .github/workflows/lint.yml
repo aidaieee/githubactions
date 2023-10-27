@@ -25,7 +25,7 @@ jobs:
 
       # Install JavaScript Dependencies
       - name: Install JavaScript Dependencies
-        run: npm install
+        run: npm install /home/runner/work/githubactions/githubactions/package.json
 
       # Run JavaScript Linting
       - name: JavaScript Linting
