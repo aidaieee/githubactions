@@ -1,0 +1,46 @@
+name: Code Coverage and PR Comment
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests and collect coverage
+        run: npm test -- --coverage
+        continue-on-error: true
+
+      - name: Publish code coverage to GitHub
+        run: |
+          COVERAGE=$(cat coverage/lcov-report/index.html)
+          COMMENT="### Code Coverage Report\n$COVERAGE"
+          echo "::set-output name=coverage::${COMMENT}"
+        id: coverage
+
+      - name: Comment on PR
+        uses: actions/github-script@0.10.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const response = await github.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              body: '${{ steps.coverage.outputs.coverage }}',
+            });
+            core.info(JSON.stringify(response));
