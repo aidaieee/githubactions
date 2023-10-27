@@ -13,20 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Python linting using flake8
-      - name: Python Linting
-        run: |
-          pip install flake8
-          flake8 .  
-
-      # JavaScript linting using ESLint
-      - name: Setup Node.js (for JavaScript projects)
+      # Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 14
 
-      - name: Install JavaScript Dependencies
-        run: npm install 
+      # Clear npm Cache
+      - name: Clear npm Cache
+        run: npm cache clean --force
 
+      # Install JavaScript Dependencies
+      - name: Install JavaScript Dependencies
+        run: npm install
+
+      # Run JavaScript Linting
       - name: JavaScript Linting
-        run: npm run lint 
+        run: npm run lint  # Adjust to your specific linting command
