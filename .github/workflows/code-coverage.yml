@@ -1,46 +1,44 @@
-name: Code Coverage and PR Comment
-
+name: Code Coverage
 on:
-  pull_request:
-    branches:
-     -main
+  push:
+    branches: [ main ]
 
 jobs:
-  coverage:
+  code-coverage:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Java
-        uses: actions/setup-node@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
           java-version: '21'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Build with Gradle
+        run: ./gradlew build  
 
-      - name: Run tests and collect coverage
-        run: npm test -- --coverage
-        continue-on-error: true
+      - name: Run Tests and Collect Code Coverage
+        run: ./gradlew test  
 
-      - name: Publish code coverage to GitHub
-        run: |
-          COVERAGE=$(cat coverage/lcov-report/index.html)
-          COMMENT="### Code Coverage Report\n$COVERAGE"
-          echo "::set-output name=coverage::${COMMENT}"
-        id: coverage
+      - name: Upload Code Coverage Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: build/reports/jacoco/test/html  
 
-      - name: Comment on PR
+      - name: Comment on PR with Code Coverage
         uses: actions/github-script@0.10.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const response = await github.pulls.createReview({
+            const fs = require('fs');
+            const coverageReport = fs.readFileSync('build/reports/jacoco/test/html/index.html', 'utf8');
+            const comment = '### Code Coverage Report\n' + coverageReport;
+            await github.issues.createComment({
+              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.issue.number,
-              body: '${{ steps.coverage.outputs.coverage }}',
+              body: comment,
             });
-            core.info(JSON.stringify(response));
