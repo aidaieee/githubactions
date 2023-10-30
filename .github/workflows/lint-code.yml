@@ -1,36 +1,23 @@
-name: Code Linting
-
+name: Java CI
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check Out Code
+      - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
-          python-version: 3.x
+          java-version: '11'
+          distribution: 'adopt'
 
-      - name: Lint Python Code
-        run: |
-          pip install flake8
-          flake8 .
-        working-directory: ./python_project_directory 
+      - name: Build project with Maven
+        run: mvn -B package --file my-task-manager-app/pom.xml
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Lint JavaScript Code
-        run: |
-          npm install -g eslint
-          eslint .
-        working-directory: ./javascript_project_directory 
+      - name: Checkstyle
+        run: mvn checkstyle:check
