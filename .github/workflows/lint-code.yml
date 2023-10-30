@@ -18,10 +18,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Build project with Maven
-        run: mvn -B package --file my-task-manager-app/pom.xml
-        working-directory: my-task-manager-app
-
       - name: Checkstyle
         run: mvn checkstyle:check
         working-directory: my-task-manager-app
